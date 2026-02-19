@@ -16,16 +16,16 @@ namespace DesignPatternChallenge.Adapters
 
         public PaymentResult ProcessPayment(PaymentRequest request)
         {
-            Console.WriteLine("[Adapter] Convertendo chamada para sistema legado...");
+            Console.WriteLine("[Adapter] Converting call to legacy system...");
 
-            // Adaptação dos dados
-            // Converter CVV de string para int
+            // Data adaptation
+            // Convert CVV from string to int
             int.TryParse(request.Cvv, out int cvvCode);
-            
-            // Converter Amount para double em centavos
+
+            // Convert Amount to double in cents
             double amountInCents = (double)(request.Amount * 100);
 
-            // Chamada ao sistema legado
+            // Call to legacy system
             var response = _legacySystem.AuthorizeTransaction(
                 request.CreditCardNumber,
                 cvvCode,
@@ -35,7 +35,7 @@ namespace DesignPatternChallenge.Adapters
                 request.CustomerEmail
             );
 
-            // Adaptação da resposta
+            // Response adaptation
             return new PaymentResult
             {
                 Success = response.ResponseCode == "00",
@@ -46,18 +46,18 @@ namespace DesignPatternChallenge.Adapters
 
         public bool RefundPayment(string transactionId, decimal amount)
         {
-            Console.WriteLine("[Adapter] Convertendo solicitação de reembolso...");
+            Console.WriteLine("[Adapter] Converting refund request...");
             double amountInCents = (double)(amount * 100);
             return _legacySystem.ReverseTransaction(transactionId, amountInCents);
         }
 
         public PaymentStatus CheckStatus(string transactionId)
         {
-            Console.WriteLine("[Adapter] Convertendo verificação de status...");
+            Console.WriteLine("[Adapter] Converting status check...");
             var status = _legacySystem.QueryTransactionStatus(transactionId);
-            
-            return status == "APPROVED" ? PaymentStatus.Approved : 
-                   status == "DECLINED" ? PaymentStatus.Declined : 
+
+            return status == "APPROVED" ? PaymentStatus.Approved :
+                   status == "DECLINED" ? PaymentStatus.Declined :
                    PaymentStatus.Pending;
         }
     }

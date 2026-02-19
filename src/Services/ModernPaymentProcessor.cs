@@ -4,23 +4,23 @@ using DesignPatternChallenge.Models;
 
 namespace DesignPatternChallenge.Services
 {
-    // Implementação moderna que funciona bem
+    // Modern implementation that works well
     public class ModernPaymentProcessor : IPaymentProcessor
     {
         public PaymentResult ProcessPayment(PaymentRequest request)
         {
-            Console.WriteLine("[Processador Moderno] Processando pagamento...");
+            Console.WriteLine("[Modern Processor] Processing payment...");
             return new PaymentResult
             {
                 Success = true,
                 TransactionId = Guid.NewGuid().ToString(),
-                Message = "Pagamento aprovado"
+                Message = "Payment approved"
             };
         }
 
         public bool RefundPayment(string transactionId, decimal amount)
         {
-            Console.WriteLine($"[Processador Moderno] Reembolsando {amount:C}");
+            Console.WriteLine($"[Modern Processor] Refunding {amount:C}");
             return true;
         }
 

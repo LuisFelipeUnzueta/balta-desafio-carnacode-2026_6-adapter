@@ -4,7 +4,7 @@ using DesignPatternChallenge.Models;
 
 namespace DesignPatternChallenge.Services
 {
-    // Classe da aplicação que usa a interface moderna
+    // Application class that uses the modern interface
     public class CheckoutService
     {
         private readonly IPaymentProcessor _paymentProcessor;
@@ -16,9 +16,9 @@ namespace DesignPatternChallenge.Services
 
         public void CompleteOrder(string customerEmail, decimal amount, string cardNumber)
         {
-            Console.WriteLine($"\n=== Finalizando Pedido ===");
-            Console.WriteLine($"Cliente: {customerEmail}");
-            Console.WriteLine($"Valor: {amount:C}\n");
+            Console.WriteLine($"\n=== Completing Order ===");
+            Console.WriteLine($"Customer: {customerEmail}");
+            Console.WriteLine($"Amount: {amount:C}\n");
 
             var request = new PaymentRequest
             {
@@ -27,18 +27,18 @@ namespace DesignPatternChallenge.Services
                 CreditCardNumber = cardNumber,
                 Cvv = "123",
                 ExpirationDate = new DateTime(2026, 12, 31),
-                Description = "Compra de produtos"
+                Description = "Product purchase"
             };
 
             var result = _paymentProcessor.ProcessPayment(request);
 
             if (result.Success)
             {
-                Console.WriteLine($"✅ Pedido aprovado! ID: {result.TransactionId}");
+                Console.WriteLine($"✅ Order approved! ID: {result.TransactionId}");
             }
             else
             {
-                Console.WriteLine($"❌ Pagamento recusado: {result.Message}");
+                Console.WriteLine($"❌ Payment declined: {result.Message}");
             }
         }
     }
